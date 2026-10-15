@@ -8,10 +8,17 @@
     --color-fg-light: #0f172a;
     --color-card-light: #ffffff;
     --color-border-light: #e2e8f0;
+    --level-up-violet: #8b5cf6;
+    --level-up-violet-bright: #a78bfa;
+    --level-up-cyan: #22d3ee;
+    --level-up-surface: #111116;
+    --level-up-border: rgba(167, 139, 250, 0.14);
   }
 
   html {
     color-scheme: dark;
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
   }
 
   html.light {
@@ -20,53 +27,246 @@
 
   body {
     background-color: #09090b;
+    background-image:
+      radial-gradient(ellipse at 8% 0%, rgba(124, 58, 237, 0.12), transparent 36rem),
+      radial-gradient(ellipse at 92% 12%, rgba(34, 211, 238, 0.055), transparent 30rem);
     color: #f4f4f5;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   html.light body {
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: #f7f7fb;
+    background-image:
+      radial-gradient(ellipse at 5% 0%, rgba(139, 92, 246, 0.08), transparent 35rem),
+      radial-gradient(ellipse at 95% 10%, rgba(6, 182, 212, 0.055), transparent 28rem);
+    color: #18181b;
   }
 
-  /* Custom modern scrollbars */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #27272a;
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #3f3f46;
+  ::selection {
+    color: #fff;
+    background: rgba(139, 92, 246, 0.65);
   }
 
-  html.light ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+  :focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 3px;
   }
-  html.light ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+
+  button, a, input, textarea, select {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-/* Glassmorphism and subtle utilities */
+/* Custom modern scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #30303a;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555064;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #c4c4d2;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #a5a5b8;
+}
+
+/* Soft glass surfaces */
 .glass-panel {
-  background: rgba(18, 18, 23, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(18, 18, 25, 0.76);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(167, 139, 250, 0.13);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(124, 58, 237, 0.12);
 }
 
-html.light .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+/* -------------------------------------------------------
+   LEVEL UP visual refresh — presentation-only enhancements
+   These rules intentionally do not change application logic.
+   ------------------------------------------------------- */
+
+/* A little more depth in the main app shell */
+body > #root {
+  min-height: 100vh;
+}
+
+/* Sidebars feel like a dedicated product surface */
+aside {
+  border-color: rgba(148, 163, 184, 0.13) !important;
+  background-color: rgba(12, 12, 17, 0.94) !important;
+  backdrop-filter: blur(18px);
+}
+html.light aside {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Sticky header: translucent, understated, and crisp */
+header.sticky {
+  background-color: rgba(9, 9, 11, 0.78) !important;
+  border-color: rgba(148, 163, 184, 0.13) !important;
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
+}
+html.light header.sticky {
+  background-color: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(148, 163, 184, 0.22) !important;
+}
+
+/* Cards: consistent borders, depth, and subtle lift on hover */
+main [class*="rounded-xl"][class*="border"],
+main [class*="rounded-2xl"][class*="border"],
+main [class*="rounded-lg"][class*="border"] {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+main [class*="rounded-xl"][class*="border"]:hover,
+main [class*="rounded-2xl"][class*="border"]:hover {
+  border-color: rgba(167, 139, 250, 0.28) !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  main [class*="rounded-xl"][class*="border"]:hover {
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Give page headings a more editorial hierarchy */
+main h1 {
+  letter-spacing: -0.045em;
+  line-height: 1.12;
+}
+main h2 {
+  letter-spacing: -0.025em;
+}
+main h1, main h2, main h3 {
+  text-wrap: balance;
+}
+
+/* Inputs feel intentional and have a clear focus state */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(167, 139, 250, 0.85) !important;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.13);
+  outline: none;
+}
+
+/* Unified button feedback without changing click behavior */
+button {
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* Shift the existing green accent utilities toward LEVEL UP violet.
+   The original utility classes and their interactions remain unchanged. */
+.bg-emerald-600 { background-color: #7c3aed !important; }
+.hover\:bg-emerald-500:hover { background-color: #8b5cf6 !important; }
+.bg-emerald-500 { background-color: #8b5cf6 !important; }
+.bg-emerald-400 { background-color: #a78bfa !important; }
+.text-emerald-700 { color: #6d28d9 !important; }
+.text-emerald-600 { color: #8b5cf6 !important; }
+.text-emerald-500 { color: #a78bfa !important; }
+.text-emerald-400 { color: #c4b5fd !important; }
+.border-emerald-500 { border-color: #8b5cf6 !important; }
+.border-emerald-500\/30 { border-color: rgba(139, 92, 246, 0.35) !important; }
+.border-emerald-500\/20 { border-color: rgba(139, 92, 246, 0.24) !important; }
+.bg-emerald-500\/5 { background-color: rgba(139, 92, 246, 0.07) !important; }
+.bg-emerald-500\/10 { background-color: rgba(139, 92, 246, 0.11) !important; }
+.bg-emerald-500\/20 { background-color: rgba(139, 92, 246, 0.17) !important; }
+
+/* Navigation links: a clearer active state */
+aside nav a[aria-current="page"] {
+  background: linear-gradient(100deg, rgba(124, 58, 237, 0.23), rgba(34, 211, 238, 0.06)) !important;
+  color: #f5f3ff !important;
+  border: 1px solid rgba(167, 139, 250, 0.19);
+  box-shadow: inset 2px 0 0 #a78bfa;
+}
+html.light aside nav a[aria-current="page"] {
+  background: linear-gradient(100deg, rgba(124, 58, 237, 0.10), rgba(34, 211, 238, 0.05)) !important;
+  color: #5b21b6 !important;
+  border-color: rgba(124, 58, 237, 0.14);
+}
+aside nav a:not([aria-current="page"]):hover {
+  transform: translateX(2px);
+}
+
+/* Responsive page gutters and mobile-safe surfaces */
+main {
+  min-width: 0;
+}
+@media (max-width: 640px) {
+  main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  header.sticky {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Smooth, restrained entrance for route content */
+main > * {
+  animation: level-up-enter 320ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+@keyframes level-up-enter {
+  from {
+    opacity: 0.01;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
