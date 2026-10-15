@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /features
+Allow: /pricing
+Allow: /contact
+Disallow: /admin/
+Disallow: /member/
+Disallow: /onboarding
