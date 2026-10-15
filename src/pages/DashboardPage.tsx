@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Flame, Trophy, CheckCircle2, Clock, Plus, Sparkles, Calendar,
   AlertCircle, Timer, RefreshCw, ChevronRight, TrendingUp, Coffee,
-  ArrowUpRight, Target, Zap, BookOpen, CircleCheck, Play, Brain,
+  ArrowUpRight, Zap, BookOpen, CircleCheck, Play, Brain,
 } from 'lucide-react';
 import { useLevelUp } from '@/contexts/LevelUpContext';
 import { QuickBreakModal } from '@/components/QuickBreakModal';
@@ -49,7 +49,6 @@ export const DashboardPage: React.FC = () => {
   const todayRecord = getDailyRecord(today);
   const disciplineScore = todayRecord?.dailyScore ?? 0;
   const disciplineTotal = data.disciplineItems.filter((item) => item.active).length;
-  const studyTarget = Math.max(1, data.profile.dailyStudyTargetHours || 1);
   const studyPercent = Math.min(100, Math.round((studyTimeTodayHours / studyTarget) * 100));
 
   const handleCreateTask = (event: React.FormEvent) => {
